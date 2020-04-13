@@ -1,4 +1,4 @@
-{% extends "user/homepage.html" %}
+{% extends "user/homepage_li.html" %}
 <style type="text/css">
 .container  {
   display: flex;
@@ -13,8 +13,9 @@
 }
 </style>
 {% block page_cont %}
+{% csrf_token %}
   <div class="container">
-    <a class="btn-floating btn waves-effect waves-light green" href="/add/"><i class="material-icons">+</i></a>
+    <a class="btn-floating btn waves-effect waves-light green" href="/add"><i class="material-icons">+</i></a>
     <a class="btn-floating btn waves-effect waves-light red" href="/delete"><i class="material-icons">-</i></a>
     <a class="btn-floating btn waves-effect waves-light blue" href="/edit"><i class="material-icons">Up</i></a>
   </div>

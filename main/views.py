@@ -14,12 +14,24 @@ def homepage(request):
 
 def contact(request):
 	if request.method == "POST":
-		contact = request.POST.get('email', "")
-		message = request.POST.get('message', "")
-		new_message = Message(message_contact=contact, message_content=message)
-		new_message.save()
-		messages.success(request, "Your message has been sent !")
-		return redirect('/')
+		if request.user.is_authenticated():
+			messages.succes(request, "bien ouej")
+			contact = request.POST.get('email', "")
+			message = request.POST.get('message', "")
+			new_message = Message(message_contact=contact, message_content=message)
+			new_message.save()
+			messages.success(request, "Your message has been sent !")
+			return render(request=request,
+		          template_name="user/homepage_li.html"
+				  		 )
+
+		else:
+			contact = request.POST.get('email', "")
+			message = request.POST.get('message', "")
+			new_message = Message(message_contact=contact, message_content=message)
+			new_message.save()
+			messages.success(request, "Your message has been sent !")
+			return redirect('/')
 	return render(request=request,
 		          template_name="main/Contact.html"
 				  ) 
@@ -27,6 +39,13 @@ def contact(request):
 def content(request, num=1):
 	return render(request=request,
 				  template_name="main/content_spect.html",
+				  context={"books": Book.objects.filter(book_category_id=num), "category": Category.objects.all
+				  , "owner": Owner.objects.all, "availibility": Book.book_availibility}
+				  )
+
+def content_li(request, num=1):
+	return render(request=request,
+				  template_name="user/content.html",
 				  context={"books": Book.objects.filter(book_category_id=num), "category": Category.objects.all
 				  , "owner": Owner.objects.all, "availibility": Book.book_availibility}
 				  )
@@ -69,7 +88,7 @@ def login_a(request):
 				messages.success(request, f"You are logged in as: {username}")
 				return render(request,
 							  template_name="user/homepage_li.html",
-							  context={"user": username})
+							  context={"user": username, "Category": Category.objects.all })
 			else:
 				messages.error(request, "Ah")
 		else: 
@@ -114,3 +133,11 @@ def addi(request):
 def update(request, num=1):
 	pass
  
+def homepage_li(request):
+	if request.user.is_authenticated():
+		return render(request,
+							  template_name="user/homepage_li.html",
+							  context={"Category": Category.objects.all })
+	return render(request,
+						template_name="main/login_a.html",
+						context={"user": username, "Category": Category.objects.all })
