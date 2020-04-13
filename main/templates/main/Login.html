@@ -1,0 +1,26 @@
+{% extends "main/homepage.html" %}
+<style type="text/css">
+.container  {
+  display: flex;
+  align-items: center;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.container .row {
+  margin: 0 auto;
+}
+
+</style>
+
+{% block login %}
+	<div class="container">
+		<form method="POST">
+			{% csrf_token %}
+			{{form.as_p}}
+			<button class="btn">Login</button>
+		</form>
+		If you don't have an account, create one via the following <a href="/Register">link</a>
+	</div>
+{%  endblock %} 

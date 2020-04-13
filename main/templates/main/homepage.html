@@ -1,0 +1,83 @@
+<head>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'tinymce/css/prism.css' %}">
+   <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</head>
+
+<body>
+  <ul id="dropdown1" class="dropdown-content">
+      <li><a href="#!">Booking</a></li>
+      <li><a href="#!">Create a category</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Claim/ complains</a></li>
+  </ul>
+    <ul id="dropdown2" class="dropdown-content">
+      <li><a href="/Login">Login</a></li>
+      <li class="divider"></li>
+      <li><a href="/logout">Logout</a></li>
+     
+  </ul>
+  <nav>
+      <div class="nav-wrapper"> 
+        <a href="#!" class="brand-logo">FaBook</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Register/">Register</a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">LogIN/OUT<i class="material-icons right"></i> </a></li>
+
+            <!-- Dropdown Trigger -->
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">More<i class="material-icons right"></i> </a></li>
+        </ul>
+      </div>
+  </nav>
+  
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == 'success' %}
+        <script type="text/javascript">$(document).ready(function(){M.toast({html: '{{message}}', classes: "green rounded", displayLength:2000});})</script>
+      {% elif message.tags == 'info' %}
+        <script type="text/javascript">$(document).ready(function(){M.toast({html: '{{message}}', classes: "blue rounded", displayLength:2000});})</script>
+      {% elif message.tags == 'warning' %}
+        <script type="text/javascript">$(document).ready(function(){M.toast({html: '{{message}}', classes: "orange rounded", displayLength:2000});})</script>
+      {% elif message.tags == 'error' %}
+        <script type="text/javascript">$(document).ready(function(){M.toast({html: '{{message}}', classes: "red rounded", displayLength:2000});})</script>
+      {% endif %}
+      
+    {% endfor %}
+  {% endif %}
+  {% block contact %}
+  {%  endblock %}
+  {% block content %}
+  {%  endblock %}
+  {% block login %}
+  {%  endblock %}
+  {% block page_cont %}
+  {%  endblock %}
+  <div class="row">
+    {% for cat in Category %}
+      <div class="col s12 m6 l3">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">{{cat.category_name}}</span>
+                <p>{{cat.category_description}}</p>
+            </div>
+            <div class="card-action">
+                  <a href="/content_spect/page/{{cat.id}}" >See Books</a>
+            </div>
+          </div>
+      </div>
+    {%  endfor %}
+  </div>
+    <script type="text/javascript">
+      $(document).ready(function(){
+    $(".dropdown-trigger").dropdown();
+      })
+  </script>
+</body>

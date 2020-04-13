@@ -1,0 +1,39 @@
+{% extends "user/homepage.html" %}
+<style type="text/css">
+.container  {
+  display: flex;
+  align-items: center;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.container .row {
+  margin: 0 auto;
+}
+</style>
+{% block page_cont %}
+  <div class="container">
+    <a class="btn-floating btn waves-effect waves-light green" href="/add/"><i class="material-icons">+</i></a>
+    <a class="btn-floating btn waves-effect waves-light red" href="/"><i class="material-icons">-</i></a>
+    <a class="btn-floating btn waves-effect waves-light blue" href="/"><i class="material-icons">Up</i></a>
+  </div>
+  <div class="row">
+		{% for book in books %}
+    	<div class="col s12 m6 l4">
+      		<div class="card blue-grey darken-1">
+      			<div class="card-content white-text">
+          			<span class="card-title">{{book.book_name}}</span>
+          			<p>{{book.book_description}}</p>
+        		</div>
+        		<div class="card-action">
+        			<p>{{book.book_availibility}}</p>
+        		</div>
+      		</div>
+    	</div>
+    {% endfor %}
+  </div>
+
+  {% block addition %}
+  {% endblock %}
+{%  endblock %}
