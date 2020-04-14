@@ -1,7 +1,7 @@
 {% extends "main/content_spect.html" %}
 
 {% block addition %}
-	<form method="POST" action="">
+	<form method="POST" action="/add">
 		{% csrf_token %}
 		<div class="row">
     		<div class="input-field col s6">
@@ -9,9 +9,8 @@
       			<label class="active" for="first_name2">Name of the book</label>
     		</div>
   	</div>
-  		
+
   		Category
-			<form action="" method="POST">
         {% for cat in category %}
     			<p>
       				<label>
@@ -20,10 +19,8 @@
       				</label>
     			</p>
         {% endfor %}
-    	</form>
 
     	Owner
-			<form action="" method="POST">
         {% for own in owner %}
     			<p>
       				<label>
@@ -32,25 +29,19 @@
       				</label>
     			</p>
         {% endfor %}
-    	</form>
 
       Description
     	<div class="row">
-    		<form class="col s12" method="POST">
       			<div class="row">
         			<div class="input-field col s12">
           				<textarea id="textarea1" class="materialize-textarea" name="description"></textarea>
           				<label for="textarea1">Textarea</label>
         			</div>
       			</div>
-    		</form>
   		</div>
-    <form method="POST" action="">
-      {% csrf_token %}
   		  <button class="btn waves-effect waves-light" type="submit" name="action" action="">Submit
     		  <i class="material-icons right">Envoyer</i>
   		  </button>
-    </form>
   </form>
 {% endblock %}
 
