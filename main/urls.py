@@ -12,8 +12,7 @@ urlpatterns = [
 	path('content_spect/page/<int:num>', views.content, name="Content"),
 	path('Login/', views.login_a, name="Login"),
 	path('add/', views.addi, name="Add"),
-	path('homepage_li/', views.login_a, name="Welcome"),
 	path('logout/', views.logout_a, name="Logout"),
-	path('content/page/<int:num>', views.content_li, name="Content2"),
-	path('homepage_li/', views.homepage_li, name="Welcome")
+	path('delete/', views.delete, name="Delete")
 	]
+

@@ -17,11 +17,8 @@
       <li class="divider"></li>
       <li><a href="#!">Claim/ complains</a></li>
   </ul>
-    <ul id="dropdown2" class="dropdown-content">
-      <li><a href="/Login">Login</a></li>
-      <li class="divider"></li>
-      <li><a href="/logout">Logout</a></li>
-     
+
+
   </ul>
   <nav>
       <div class="nav-wrapper"> 
@@ -29,11 +26,14 @@
         <ul class="right hide-on-med-and-down">
             <li><a href="/">Accueil</a></li>
             <li><a href="/Contact">Contact</a></li>
-            <li><a href="/Register/">Register</a></li>
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">LogIN/OUT<i class="material-icons right"></i> </a></li>
+            <li><a href="/{{info}}">{{info}}</a></li>
+            {% if info == "Login" %}
+              <li><a href="/Register/">Register</a></li>
+            {% elif info == "logout" %}
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">More<i class="material-icons right"></i> </a></li>
 
-            <!-- Dropdown Trigger -->
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">More<i class="material-icons right"></i> </a></li>
+            {% endif %}
+
         </ul>
       </div>
   </nav>
@@ -51,15 +51,9 @@
       {% endif %}
       
     {% endfor %}
+
   {% endif %}
-  {% block contact %}
-  {%  endblock %}
-  {% block content %}
-  {%  endblock %}
-  {% block login %}
-  {%  endblock %}
-  {% block page_cont %}
-  {%  endblock %}
+
   <div class="row">
     {% for cat in Category %}
       <div class="col s12 m6 l3">
@@ -75,6 +69,17 @@
       </div>
     {%  endfor %}
   </div>
+
+  {% block contact %}
+  {%  endblock %}
+  {% block content %}
+  {%  endblock %}
+  {% block login %}
+  {%  endblock %}
+  {% block page_cont %}
+  {%  endblock %}
+  {% block delete %}
+  {%  endblock %}
     <script type="text/javascript">
       $(document).ready(function(){
     $(".dropdown-trigger").dropdown();

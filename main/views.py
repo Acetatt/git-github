@@ -2,55 +2,41 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
 
 # Create your views here.
 def homepage(request):
+	if request.user.is_authenticated:
+		return render(request=request,
+		          template_name="main/homepage.html",
+		          context = {"Category": Category.objects.all, "info": "logout"}
+				  ) 
 	return render(request=request,
 		          template_name="main/homepage.html",
-		          context = {"Category": Category.objects.all}
+		          context = {"Category": Category.objects.all, 'info': "Login"}
 				  ) 
 
 def contact(request):
 	if request.method == "POST":
-		if request.user.is_authenticated():
-			messages.succes(request, "bien ouej")
-			contact = request.POST.get('email', "")
-			message = request.POST.get('message', "")
-			new_message = Message(message_contact=contact, message_content=message)
-			new_message.save()
-			messages.success(request, "Your message has been sent !")
-			return render(request=request,
-		          template_name="user/homepage_li.html"
-				  		 )
-
-		else:
-			contact = request.POST.get('email', "")
-			message = request.POST.get('message', "")
-			new_message = Message(message_contact=contact, message_content=message)
-			new_message.save()
-			messages.success(request, "Your message has been sent !")
-			return redirect('/')
+		contact = request.POST.get('email', "")
+		message = request.POST.get('message', "")
+		new_message = Message(message_contact=contact, message_content=message)
+		new_message.save()
+		messages.success(request, "Your message has been sent !")
+		return redirect('/')
 	return render(request=request,
 		          template_name="main/Contact.html"
 				  ) 
 
+@login_required(login_url="/Login")
 def content(request, num=1):
 	return render(request=request,
 				  template_name="main/content_spect.html",
 				  context={"books": Book.objects.filter(book_category_id=num), "category": Category.objects.all
 				  , "owner": Owner.objects.all, "availibility": Book.book_availibility}
 				  )
-
-def content_li(request, num=1):
-	return render(request=request,
-				  template_name="user/content.html",
-				  context={"books": Book.objects.filter(book_category_id=num), "category": Category.objects.all
-				  , "owner": Owner.objects.all, "availibility": Book.book_availibility}
-				  )
-
-
 
 def register(request):
 	if request.method == "POST":
@@ -71,6 +57,7 @@ def register(request):
 				  context={"form":form}
 				  )
 
+@login_required(login_url="/Login")
 def logout_a(request):
 	logout(request)
 	messages.info(request, "Logged out successfully!")
@@ -86,9 +73,7 @@ def login_a(request):
 			if user is not None:
 				login(request, user)
 				messages.success(request, f"You are logged in as: {username}")
-				return render(request,
-							  template_name="user/homepage_li.html",
-							  context={"user": username, "Category": Category.objects.all })
+				return redirect("/")
 			else:
 				messages.error(request, "Ah")
 		else: 
@@ -100,17 +85,9 @@ def login_a(request):
 				  {"form":form}
 				 )
 
-#def delete(request, pk):
-#	book = Book.objects.get(id=pk)
-#	if request.method == 'POST':
- #  		book.delete()
-  # 		return redirect('/')
-   #	return render(request=request,
-   	#			  'main/content.html',
-   	#			  context={'item',item})
-
+@login_required(login_url="/Login")
 def addi(request):
-
+	messages.success(request, "that's a start")
 	if request.POST == "POST":
 		message.succes(request, "Au moins t'as fait ton form")
 		my_form = (request.POST.get("name", ""), request.POST.get("group2", ""),request.POST.get("group1", ""),request.POST.get("descritpion", ""))
@@ -127,17 +104,15 @@ def addi(request):
 				  template_name="main/add.html",context={"category": Category.objects.all
 				  ,"owner": Owner.objects.all}
 				  )
-#, "availibility": [("Availible", "Availible"),
- #       														("Not_availible", "Not availible")]
 
+											
+@login_required(login_url="/Login")
 def update(request, num=1):
 	pass
+
+@login_required(login_url="/Login")
+def delete(request):
+	pass
+
  
-def homepage_li(request):
-	if request.user.is_authenticated():
-		return render(request,
-							  template_name="user/homepage_li.html",
-							  context={"Category": Category.objects.all })
-	return render(request,
-						template_name="main/login_a.html",
-						context={"user": username, "Category": Category.objects.all })
+
